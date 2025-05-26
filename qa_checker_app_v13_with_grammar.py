@@ -16,7 +16,6 @@ uploaded_file = st.file_uploader("Upload a .docx translation file", type="docx")
 
 if uploaded_file:
     if st.button("✅ Run QA Check"):
-    st.write("🔎 Running QA checks… please wait")
 
         doc = Document(uploaded_file)
         filename = uploaded_file.name
@@ -27,7 +26,6 @@ if uploaded_file:
     "fr-CA",
     remote_server="https://languagetool-yourapp-small-pine-7918.fly.dev"
 )
-
 
         phone_patterns = [
             re.compile(r"\(\d{3}\)[\s-]?\d{3}[- ]\d{4}"),
