@@ -72,12 +72,6 @@ if uploaded_file:
                 context
             ))
 
-        # Old hardcoded example (kept for reference, can be removed)
-        if "tout polluants constaté" in text:
-            context = "...tout polluants constaté..."
-            issues.append((page, line_num, "Grammar agreement", "Should be 'tous les polluants constatés'", context))
-            context = "...tout polluants constaté..."
-            issues.append((page, line_num, "Grammar agreement", "Should be 'tous les polluants constatés'", context))
 
         # Guillemets check
         for idx, char in enumerate(text):
