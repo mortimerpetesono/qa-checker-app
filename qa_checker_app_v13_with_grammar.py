@@ -51,13 +51,6 @@ if uploaded_file:
             context = "..." + snippet.strip() + "..."
             issues.append((page, line_num, "Non-breaking space", "Missing NBSP before colon", context))
 
-        # Phone format
-        for pattern in phone_patterns:
-            for match in pattern.finditer(text):
-                snippet = text[max(0, match.start()-10):match.end()+10]
-                context = "..." + snippet.strip() + "..."
-                issues.append((page, line_num, "Phone number format", "Missing non-breaking hyphen in phone number", context))
-
         # Grammar checks using LanguageTool
         matches = tool.check(text)
         for match in matches:
@@ -98,7 +91,6 @@ This summary includes QA checks for:<br/>
 - Straight vs. curved apostrophes (’)<br/>
 - Missing non-breaking spaces before French punctuation (:<br/>
 - Determiner-noun agreement (e.g., 'tout polluants' → 'tous les polluants')<br/>
-- Phone number formatting: Use non-breaking hyphens (e.g., 613-555-1234 or (587)-873-9408)<br/>
 - Guillemets (« ») must be surrounded by regular breaking spaces<br/>
 Note: Email capitalization inconsistencies are ignored.
 """, styles["Normal"]))
