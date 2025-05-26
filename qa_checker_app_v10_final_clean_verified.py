@@ -9,7 +9,7 @@ import tempfile
 import re
 
 st.set_page_config(page_title="French Canadian QA Checker", layout="centered")
-st.title("🇨🇦 French Canadian Translation QA Checker")
+st.title("🇨🇦 French Canadian Translation QA Checker - Punctuation Only")
 
 page_offset = st.number_input("📄 Enter starting page number for content:", min_value=1, value=1, step=1)
 uploaded_file = st.file_uploader("Upload a .docx translation file", type="docx")
