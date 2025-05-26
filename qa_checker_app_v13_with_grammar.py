@@ -16,6 +16,8 @@ uploaded_file = st.file_uploader("Upload a .docx translation file", type="docx")
 
 if uploaded_file:
     if st.button("✅ Run QA Check"):
+    st.write("🔎 Running QA checks… please wait")
+
         doc = Document(uploaded_file)
         filename = uploaded_file.name
 
