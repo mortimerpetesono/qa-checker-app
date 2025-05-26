@@ -14,7 +14,7 @@ st.session_state.setdefault("authenticated", False)
 
 if not st.session_state["authenticated"]:
     pw = st.text_input("🔐 Enter password to access this tool:", type="password")
-    if pw == "checkit2025":
+    if pw == "sono2025":
         st.session_state["authenticated"] = True
         st.success("Access granted!")
     elif pw:
