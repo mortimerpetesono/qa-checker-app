@@ -11,15 +11,20 @@ import re
 st.set_page_config(page_title="French Canadian QA Checker", layout="centered")
 
 st.session_state.setdefault("authenticated", False)
+# ----------------------------
+# 🔐 Password Protection
+# ----------------------------
+if "authenticated" not in st.session_state:
+    st.session_state["authenticated"] = False
 
 if not st.session_state["authenticated"]:
     pw = st.text_input("🔐 Enter password to access this tool:", type="password")
     if pw == "sono2025":
         st.session_state["authenticated"] = True
-        st.success("Access granted!")
+        st.experimental_rerun()
     elif pw:
         st.error("Incorrect password.")
-        st.stop()
+    st.stop()
 
 
 st.title("🇨🇦 French Canadian Translation QA Checker")
