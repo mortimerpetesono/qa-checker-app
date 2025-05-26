@@ -1,4 +1,6 @@
+setuptools
 streamlit
 python-docx
 reportlab
 language-tool-python==2.7.1
+
