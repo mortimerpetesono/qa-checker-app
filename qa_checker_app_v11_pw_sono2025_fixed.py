@@ -19,7 +19,8 @@ if not st.session_state["authenticated"]:
         st.success("Access granted!")
     elif pw:
         st.error("Incorrect password.")
-    st.stop()
+        st.stop()
+
 
 st.title("🇨🇦 French Canadian Translation QA Checker")
 
