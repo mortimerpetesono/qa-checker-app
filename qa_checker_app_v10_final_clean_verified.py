@@ -52,10 +52,6 @@ if uploaded_file:
                 context = "..." + snippet.strip() + "..."
                 issues.append((page, line_num, "Phone number format", "Missing non-breaking hyphen in phone number", context))
 
-        # Grammar example
-        if "tout polluants constaté" in text:
-            context = "...tout polluants constaté..."
-            issues.append((page, line_num, "Grammar agreement", "Should be 'tous les polluants constatés'", context))
 
         # Guillemets check
         for idx, char in enumerate(text):
@@ -75,16 +71,14 @@ if uploaded_file:
         styleN = styles["Normal"]
         flow = []
 
-        flow.append(Paragraph("<b>French Canadian Translation QA Summary</b>", styles["Title"]))
+        flow.append(Paragraph("<b>French Canadian Translation QA Summary - Punctuation Only</b>", styles["Title"]))
         flow.append(Paragraph(f"<font size=9 color='gray'>File: {filename}</font>", styles["Normal"]))
         flow.append(Paragraph("""
 This summary includes QA checks for:<br/>
 - Straight vs. curved apostrophes (’)<br/>
 - Missing non-breaking spaces before French punctuation (:<br/>
-- Determiner-noun agreement (e.g., 'tout polluants' → 'tous les polluants')<br/>
 - Phone number formatting: Use non-breaking hyphens (e.g., 613-555-1234 or (587)-873-9408)<br/>
 - Guillemets (« ») must be surrounded by regular breaking spaces<br/>
-Note: Email capitalization inconsistencies are ignored.
 """, styles["Normal"]))
 
         table_data = [["Page", "Line", "Issue Category", "Note", "Context"]]
