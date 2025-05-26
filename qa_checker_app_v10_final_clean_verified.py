@@ -76,7 +76,7 @@ if uploaded_file:
         flow.append(Paragraph("""
 This summary includes QA checks for:<br/>
 - Straight vs. curved apostrophes (’)<br/>
-- Missing non-breaking spaces before French punctuation (:<br/>
+- Missing non-breaking spaces before French punctuation e.g. :<br/>
 - Phone number formatting: Use non-breaking hyphens (e.g., 613-555-1234 or (587)-873-9408)<br/>
 - Guillemets (« ») must be surrounded by regular breaking spaces<br/>
 """, styles["Normal"]))
