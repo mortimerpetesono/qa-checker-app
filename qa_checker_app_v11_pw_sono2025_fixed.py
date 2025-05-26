@@ -10,10 +10,7 @@ import re
 
 st.set_page_config(page_title="French Canadian QA Checker", layout="centered")
 
-st.session_state.setdefault("authenticated", False)
-# ----------------------------
-# 🔐 Password Protection
-# ----------------------------
+
 if "authenticated" not in st.session_state:
     st.session_state["authenticated"] = False
 
