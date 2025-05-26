@@ -1,4 +1,3 @@
-
 import streamlit as st
 from docx import Document
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
@@ -16,70 +15,70 @@ page_offset = st.number_input("📄 Enter starting page number for content:", mi
 uploaded_file = st.file_uploader("Upload a .docx translation file", type="docx")
 
 if uploaded_file:
-    doc = Document(uploaded_file)
-    filename = uploaded_file.name
-
-    issues = []
-    line_num = 0
-    tool = language_tool_python.LanguageTool(
-    "fr-CA",
-    remote_server="https://languagetool-yourapp.fly.dev"
-)
-
-    phone_patterns = [
-        re.compile(r"\(\d{3}\)[\s-]?\d{3}[- ]\d{4}"),
-        re.compile(r"\b\d{3}[- ]\d{3}[- ]\d{4}\b")
-    ]
-
-    for para in doc.paragraphs:
-        text = para.text.strip()
-        if not text:
-            continue
-        line_num += 1
-        page = page_offset + (line_num // 40)
-
-        # Apostrophes
-        for m in re.finditer(r"\b\w*'\w*\b", text):
-            snippet = text[max(0, m.start()-30):m.end()+30]
-            context = "..." + snippet.strip() + "..."
-            issues.append((page, line_num, "Apostrophe", "Straight apostrophe used instead of curved (’)", context))
-
-        # Non-breaking space before colon
-        for m in re.finditer(r"(?<!\u00A0):", text):
-            idx = m.start()
-            snippet = text[max(0, idx-30):idx+30]
-            context = "..." + snippet.strip() + "..."
-            issues.append((page, line_num, "Non-breaking space", "Missing NBSP before colon", context))
-
-        # Grammar checks using LanguageTool
-        matches = tool.check(text)
-        for match in matches:
-            error_text = text[match.offset:match.offset + match.errorLength]
-            snippet = text[max(0, match.offset - 30):match.offset + match.errorLength + 30]
-            context = "..." + snippet.strip() + "..."
-            issues.append((
-                page,
-                line_num,
-                "Grammar",
-                match.message,
-                context
-            ))
-
-
-        # Guillemets check
-        for idx, char in enumerate(text):
-            if char == "«":
-                after = text[idx + 1] if idx + 1 < len(text) else ""
-                if after != ' ' and after.isalpha():
-                    context = "..." + text[max(0, idx - 30):idx + 30] + "..."
-                    issues.append((page, line_num, "Guillemets spacing", "Missing regular space after «", context))
-            if char == "»":
-                before = text[idx - 1] if idx > 0 else ""
-                if before != ' ' and before.isalpha():
-                    context = "..." + text[max(0, idx - 30):idx + 30] + "..."
-                    issues.append((page, line_num, "Guillemets spacing", "Missing regular space before »", context))
-
     if st.button("✅ Run QA Check"):
+        doc = Document(uploaded_file)
+        filename = uploaded_file.name
+
+        issues = []
+        line_num = 0
+        tool = language_tool_python.LanguageTool(
+            "fr-CA",
+            remote_server="https://languagetool-yourapp.fly.dev"
+        )
+
+        phone_patterns = [
+            re.compile(r"\(\d{3}\)[\s-]?\d{3}[- ]\d{4}"),
+            re.compile(r"\b\d{3}[- ]\d{3}[- ]\d{4}\b")
+        ]
+
+        for para in doc.paragraphs:
+            text = para.text.strip()
+            if not text:
+                continue
+            line_num += 1
+            page = page_offset + (line_num // 40)
+
+            # Apostrophes
+            for m in re.finditer(r"\b\w*'\w*\b", text):
+                snippet = text[max(0, m.start()-30):m.end()+30]
+                context = "..." + snippet.strip() + "..."
+                issues.append((page, line_num, "Apostrophe", "Straight apostrophe used instead of curved (’)", context))
+
+            # Non-breaking space before colon
+            for m in re.finditer(r"(?<!\u00A0):", text):
+                idx = m.start()
+                snippet = text[max(0, idx-30):idx+30]
+                context = "..." + snippet.strip() + "..."
+                issues.append((page, line_num, "Non-breaking space", "Missing NBSP before colon", context))
+
+            # Grammar checks using LanguageTool
+            matches = tool.check(text)
+            for match in matches:
+                error_text = text[match.offset:match.offset + match.errorLength]
+                snippet = text[max(0, match.offset - 30):match.offset + match.errorLength + 30]
+                context = "..." + snippet.strip() + "..."
+                issues.append((
+                    page,
+                    line_num,
+                    "Grammar",
+                    match.message,
+                    context
+                ))
+
+            # Guillemets check
+            for idx, char in enumerate(text):
+                if char == "«":
+                    after = text[idx + 1] if idx + 1 < len(text) else ""
+                    if after != ' ' and after.isalpha():
+                        context = "..." + text[max(0, idx - 30):idx + 30] + "..."
+                        issues.append((page, line_num, "Guillemets spacing", "Missing regular space after «", context))
+                if char == "»":
+                    before = text[idx - 1] if idx > 0 else ""
+                    if before != ' ' and before.isalpha():
+                        context = "..." + text[max(0, idx - 30):idx + 30] + "..."
+                        issues.append((page, line_num, "Guillemets spacing", "Missing regular space before »", context))
+
+        # PDF generation
         styles = getSampleStyleSheet()
         styleN = styles["Normal"]
         flow = []
@@ -89,7 +88,7 @@ if uploaded_file:
         flow.append(Paragraph("""
 This summary includes QA checks for:<br/>
 - Straight vs. curved apostrophes (’)<br/>
-- Missing non-breaking spaces before French punctuation (:<br/>
+- Missing non-breaking spaces before French punctuation (:)<br/>
 - Determiner-noun agreement (e.g., 'tout polluants' → 'tous les polluants')<br/>
 - Guillemets (« ») must be surrounded by regular breaking spaces<br/>
 Note: Email capitalization inconsistencies are ignored.
