@@ -23,10 +23,11 @@ if uploaded_file:
 
         issues = []
         line_num = 0
-        tool = language_tool_python.LanguageTool(
+       tool = language_tool_python.LanguageTool(
     "fr-CA",
     remote_server="https://languagetool-yourapp-small-pine-7918.fly.dev"
 )
+
 
         phone_patterns = [
             re.compile(r"\(\d{3}\)[\s-]?\d{3}[- ]\d{4}"),
